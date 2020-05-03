@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import { View, StyleSheet } from 'react-native';
 import {ActionCableConsumer} from
   '@thrash-industries/react-actioncable-provider';
@@ -8,25 +8,25 @@ import {selectConversationById} from 'state/chat';
 
 const ChatScreen = ({route}) => {
   const { id } = route.params;
+  const cable = useRef({});
   const conversation = useSelector((state)=>selectConversationById(state, id));
   const [messages, setMessages] = useState(conversation.messages);
 
   const handleReceivedMessage = data => {
     console.log("ChatScreen: ", data)
-    // setMessages([data.message, ...messages]);
+    setMessages([data.message, ...messages]);
   }
 
   const sendHandler = message => {
-    const newMessages = [...messages, message];
-    setMessages(newMessages)
+    console.log(cable.current)
+    cable.current.send(message.text);
   }
 
   return (
     <ActionCableConsumer
       channel={{channel: 'MessagesChannel', conversation: id}}
       onReceived={handleReceivedMessage}
-      onConnect={console.log("on")}
-      onDisconnect={console.log("off")}
+      ref={cable}
     >
       <View style={styles.container}>
         <GiftedChat
@@ -40,7 +40,7 @@ const ChatScreen = ({route}) => {
   )
 };
 
-export default ChatScreen;
+export default React.memo(ChatScreen);
 
 const styles = StyleSheet.create({
    container: {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   loadConversations,
@@ -11,7 +11,7 @@ import ConversationsListView
   from 'features/ConversationsList/ConversationsListView';
 import { ActionCableConsumer }
   from '@thrash-industries/react-actioncable-provider';
-import { Text, View, TextInput, Button } from 'react-native'
+import { Text, View, TextInput, Button, StyleSheet } from 'react-native'
 import { isEmpty } from 'utils';
 
 const LOAD_STATES = {
@@ -22,7 +22,7 @@ const LOAD_STATES = {
 
 const ConversationsList = () => {
   const dispatch = useDispatch();
-  
+  // const cable = useRef({});
   const [value, setValue] = useState('');
   const [loadingState, changeLoadingStatus] = useState(LOAD_STATES.LOADING);
 
@@ -56,6 +56,8 @@ const ConversationsList = () => {
     console.log(response)
   }
 
+  // console.log("CABLE: ", cable);
+
   return (
     <View style={{flex:1}}>
       <View style={styles.inputWrapper}>
@@ -71,6 +73,7 @@ const ConversationsList = () => {
         />
       </View>
       <ActionCableConsumer
+        // ref={cable}
         channel={{ channel: 'ConversationsChannel' }}
         onReceived={handleReceivedConversation}
       >
@@ -81,9 +84,7 @@ const ConversationsList = () => {
           isLoading={isLoading}
         />}
       </ActionCableConsumer>
-     
     </View>
-   
   )
 }
 
