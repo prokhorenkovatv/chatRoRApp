@@ -1283,6 +1283,11 @@ actioncable@^5.0.0:
   resolved "https://registry.yarnpkg.com/actioncable/-/actioncable-5.2.4.tgz#744f555f16d87413044f81074a9cc4d2cf416502"
   integrity sha512-2mCP0eKTjxtDWNPqP6xPar9a5i8F/pndrTHJGU6QDS1a77B+DlPEWzPRiyNAaNEGMY/9yTBOP3CXhR+8/zaVQw==
 
+actioncable@^5.2.4-2:
+  version "5.2.4-2"
+  resolved "https://registry.yarnpkg.com/actioncable/-/actioncable-5.2.4-2.tgz#3f58efd0704a68dd3f096810d3d344c0d92ac81c"
+  integrity sha512-tq2WNngBruV7uxCRCHTg+DDdrgG1ynSymV+2m8ocfnD0EiUx8C/BMuf/xsnfKAhNWZsKvcPZsIUGbVSjhGwhuA==
+
 ajv@^6.10.0, ajv@^6.10.2, ajv@^6.5.5:
   version "6.12.2"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.2.tgz#c629c5eced17baf314437918d2da88c99d5958cd"

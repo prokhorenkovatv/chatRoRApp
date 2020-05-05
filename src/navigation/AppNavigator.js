@@ -14,9 +14,9 @@ const AppNavigator = () => {
         <Stack.Screen name="Chat App" component={HomeScreen} />
         <Stack.Screen
           name={SCREENS.CHAT}
-          component={ChatScreen}
           options={({route}) => ({
             title: route.params.title})}
+          component={ChatScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

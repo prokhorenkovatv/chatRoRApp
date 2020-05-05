@@ -1,18 +1,13 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  loadConversations,
-  selectConversations,
-  createConversation
-} from 'state/chat';
+import React, {useEffect, useState, useRef} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {loadConversations, selectConversations} from 'state/chat';
 import Spinner from 'components/Spinner';
 import LoadingError from 'components/LoadingError';
-import ConversationsListView
-  from 'features/ConversationsList/ConversationsListView';
-import { ActionCableConsumer }
-  from '@thrash-industries/react-actioncable-provider';
-import { Text, View, TextInput, Button, StyleSheet } from 'react-native'
-import { isEmpty } from 'utils';
+import ConversationsListView from 'features/ConversationsList/ConversationsListView';
+import {ActionCableConsumer} from '@thrash-industries/react-actioncable-provider';
+import {Text, View} from 'react-native';
+import {isEmpty} from 'utils';
+import AddConversation from 'features/AddConversation';
 
 const LOAD_STATES = {
   LOADING: 'LOADING',
@@ -22,8 +17,7 @@ const LOAD_STATES = {
 
 const ConversationsList = () => {
   const dispatch = useDispatch();
-  // const cable = useRef({});
-  const [value, setValue] = useState('');
+  const cable = useRef({});
   const [loadingState, changeLoadingStatus] = useState(LOAD_STATES.LOADING);
 
   const setLoading = () => changeLoadingStatus(LOAD_STATES.LOADING);
@@ -34,71 +28,43 @@ const ConversationsList = () => {
     setLoading();
     dispatch(loadConversations())
       .then(setLoaded)
-      .catch(setFailed)
+      .catch(setFailed);
   };
 
   useEffect(() => {
-   fetchConversations()
+    fetchConversations();
   }, []);
 
   const conversations = useSelector(selectConversations);
 
   const isLoading = loadingState === LOAD_STATES.LOADING;
-  
+
   if ([LOAD_STATES.FAILED].includes(loadingState))
-    return (
-      <LoadingError
-        onRefresh={fetchConversations}
-      />)
+    return <LoadingError onRefresh={fetchConversations} />;
   if (isLoading) return <Spinner />;
 
   const handleReceivedConversation = response => {
-    console.log(response)
-  }
-
-  // console.log("CABLE: ", cable);
+    console.log(response);
+  };
 
   return (
-    <View style={{flex:1}}>
-      <View style={styles.inputWrapper}>
-        <TextInput
-          value={value}
-          onChangeText={text => setValue(text)}
-          style={styles.textInput}
-        />
-        <Button
-          title="Add"
-          style={{width: '20%'}}
-          onPress={() => dispatch(createConversation(value))}
-        />
-      </View>
+    <View style={{flex: 1}}>
+      <AddConversation />
       <ActionCableConsumer
-        // ref={cable}
-        channel={{ channel: 'ConversationsChannel' }}
-        onReceived={handleReceivedConversation}
-      >
-        {isEmpty(conversations) ?
+        ref={cable}
+        channel={{channel: 'ConversationsChannel'}}
+        onReceived={handleReceivedConversation}>
+        {isEmpty(conversations) ? (
           <Text>No conversations yet</Text>
-        : <ConversationsListView
-          conversations={conversations}
-          isLoading={isLoading}
-        />}
+        ) : (
+          <ConversationsListView
+            conversations={conversations}
+            isLoading={isLoading}
+          />
+        )}
       </ActionCableConsumer>
     </View>
-  )
-}
+  );
+};
 
 export default React.memo(ConversationsList);
-
-const styles = StyleSheet.create({
-  inputWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
-  textInput: {
-    height: 40,
-    width: '80%',
-    borderColor: 'grey',
-    borderWidth: 1,
-    marginRight: 10 }
-});

@@ -13,16 +13,14 @@ import {API_WS_ROOT} from './src/constants';
 import App from './App';
 import {name as appName} from './app.json';
 
-const cable = ActionCable.createConsumer(API_WS_ROOT)
+const cable = ActionCable.createConsumer(API_WS_ROOT);
 
-export  const AppContainer = () => {
+export const AppContainer = () => {
   return (
     <ActionCableProvider cable={cable}>
       <App />
     </ActionCableProvider>
-  )
-}
+  );
+};
 
 AppRegistry.registerComponent(appName, () => AppContainer);
-
-
