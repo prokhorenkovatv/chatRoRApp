@@ -2,7 +2,7 @@ import axios from 'axios';
 import { get } from 'utils';
 
 const errorHandler = err => {
-  console.warn(err)
+  console.warn(err);
   if (!err.response) {
     throw err;
   }

@@ -1,4 +1,4 @@
 export const SCREENS = {
   HOME: 'HomeScreen',
-  CHAT: 'ChatScreen'
-}
+  CHAT: 'ChatScreen',
+};

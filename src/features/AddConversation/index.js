@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {View, TextInput, Button, StyleSheet} from 'react-native';
-import {useDispatch} from 'react-redux';
-import {createConversation} from 'state/chat';
+import React, { useState } from 'react';
+import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { createConversation } from 'state/chat';
 
 const AddConversation = () => {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ const AddConversation = () => {
       />
       <Button
         title="Add"
-        style={{width: '20%'}}
+        style={{ width: '20%' }}
         color="grey"
         onPress={() => dispatch(createConversation(value))}
       />

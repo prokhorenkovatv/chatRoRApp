@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-  View, StyleSheet, Text, ScrollView, Button
-} from 'react-native';
+import { View, StyleSheet, Text, ScrollView, Button } from 'react-native';
 import { THEME } from 'utils/ui';
 
 const LoadingError = ({ onRefresh }) => (
-  <ScrollView
-    style={styles.refreshWrap}
-  >
+  <ScrollView style={styles.refreshWrap}>
     <View style={styles.container}>
       <Text style={styles.emptyTitle}>
         No connection,
@@ -16,11 +12,7 @@ const LoadingError = ({ onRefresh }) => (
         {'\n'}
         or press the button below
       </Text>
-      <Button
-        title="Try again"
-        onPress={onRefresh}
-        style={styles.buttonText}
-      />
+      <Button title="Try again" onPress={onRefresh} style={styles.buttonText} />
     </View>
   </ScrollView>
 );
@@ -50,9 +42,9 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: THEME.GREY,
     color: 'white',
-    marginTop: 50
+    marginTop: 50,
   },
   buttonText: {
-    fontSize: 18
-  }
+    fontSize: 18,
+  },
 });

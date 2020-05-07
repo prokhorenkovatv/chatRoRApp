@@ -4,7 +4,7 @@ import { THEME } from 'utils/ui';
 
 const Spinner = () => (
   <ScrollView contentContainerStyle={styles.center}>
-    <ActivityIndicator size='large' color={THEME.GREY} />
+    <ActivityIndicator size="large" color={THEME.GREY} />
   </ScrollView>
 );
 
@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
   center: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
-})
+    alignItems: 'center',
+  },
+});
 
 export default Spinner;

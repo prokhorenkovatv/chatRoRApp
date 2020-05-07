@@ -1,13 +1,14 @@
 import React from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import {SCREENS} from 'navigation/constants';
-import {useNavigation} from '@react-navigation/native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { SCREENS } from 'navigation/constants';
+import { useNavigation } from '@react-navigation/native';
 
-const ConversationItem = ({title, id}) => {
+const ConversationItem = ({ title, id }) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate(SCREENS.CHAT, {title, id})}>
+      onPress={() => navigation.navigate(SCREENS.CHAT, { title, id })}
+    >
       <View styles={styles.wrapper}>
         <Text style={styles.text}>{title}</Text>
       </View>

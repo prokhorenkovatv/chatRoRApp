@@ -88,7 +88,11 @@ module.exports = {
     'react/jsx-no-bind': 0,
     'react/jsx-no-duplicate-props': 2,
     'react/no-unused-vars': 'off',
-    "no-use-before-define": ["error", { "functions":false, "classes": true, "variables": false}]
+    'no-use-before-define': [
+      'error',
+      {functions: false, classes: true, variables: false},
+    ],
+    'react/jsx-closing-bracket-location': [enabled, 'tag-aligned'],
   },
   globals: {
     React: 'readonly',

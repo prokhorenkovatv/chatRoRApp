@@ -35,6 +35,17 @@ public class MainApplication extends Application implements ReactApplication {
         }
       };
 
+
+//   @Override
+// public void onCreate(Bundle savedInstanceState) {
+//     super.onCreate(savedInstanceState);
+//     setContentView(R.layout.main);
+
+//     Intent intent = getIntent();
+//     String action = intent.getAction();
+//     Uri data = intent.getData();
+// }    
+
   @Override
   public ReactNativeHost getReactNativeHost() {
     return mReactNativeHost;
