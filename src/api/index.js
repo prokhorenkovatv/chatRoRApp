@@ -3,6 +3,9 @@ import { API_ROOT } from 'constants';
 
 export const getConversations = () => axios.get(`${API_ROOT}/conversations`);
 
+export const getConversationById = id =>
+  axios.get(`${API_ROOT}/conversations/${id}`);
+
 export const postConversation = title =>
   axios.post(`${API_ROOT}/conversations`, { title });
 

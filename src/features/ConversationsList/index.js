@@ -4,13 +4,23 @@ import { ActionCableConsumer } from '@thrash-industries/react-actioncable-provid
 import { Text, View } from 'react-native';
 import { isEmpty } from 'utils';
 import AddConversation from 'features/AddConversation';
+import { useSelector, shallowEqual } from 'react-redux';
+import { selectConversations } from 'state/conversations';
 
-const ConversationsList = ({ conversations }) => {
+const ConversationsList = () => {
   const cable = useRef({});
+  const conversations = useSelector(selectConversations, shallowEqual);
 
   const handleReceivedConversation = response => {
     console.log(response);
   };
+
+  if (isEmpty(conversations))
+    return (
+      <View style={{ flex: 1 }}>
+        <Text>No conversations yet</Text>
+      </View>
+    );
 
   return (
     <View style={{ flex: 1 }}>
@@ -20,14 +30,7 @@ const ConversationsList = ({ conversations }) => {
         channel={{ channel: 'ConversationsChannel' }}
         onReceived={handleReceivedConversation}
       >
-        {isEmpty(conversations) ? (
-          <Text>No conversations yet</Text>
-        ) : (
-          <ConversationsListView
-            conversations={conversations}
-            isLoading={isLoading}
-          />
-        )}
+        <ConversationsListView conversations={conversations} />
       </ActionCableConsumer>
     </View>
   );

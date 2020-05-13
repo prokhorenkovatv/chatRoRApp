@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { loadConversations, selectConversations } from 'state/chat';
+import { useDispatch } from 'react-redux';
+import { loadConversations, selectConversations } from 'state/conversations';
 import Spinner from 'components/Spinner';
 import LoadingError from 'components/LoadingError';
 import ConversationsList from 'features/ConversationsList';
@@ -30,21 +30,15 @@ const HomeScreen = () => {
   const _isMounted = useRef(true);
 
   const fetchConversations = () => {
+    if (!_isMounted.current) {
+      return;
+    }
     dispatch(loadConversations())
-      .then(() => {
-        if (_isMounted.current) {
-          setLoaded;
-        }
-      })
-      .catch(() => {
-        if (_isMounted.current) {
-          setFailed;
-        }
-      });
+      .then(setLoaded)
+      .catch(setFailed);
   };
 
   useEffect(() => {
-    setLoading();
     DeepLinking.addScheme('chatrorapp://');
     DeepLinking.addRoute('/conversation/:id', response => {
       navigation.navigate(SCREENS.CHAT, { id: response.id });
@@ -71,14 +65,12 @@ const HomeScreen = () => {
     DeepLinking.evaluateUrl(event.url);
   };
 
-  const conversations = useSelector(selectConversations);
-
   if ([LOAD_STATES.FAILED].includes(loadingState))
     return <LoadingError onRefresh={fetchConversations} />;
 
   if (isLoading) return <Spinner />;
 
-  return <ConversationsList conversations={conversations} />;
+  return <ConversationsList />;
 };
 
 export default HomeScreen;

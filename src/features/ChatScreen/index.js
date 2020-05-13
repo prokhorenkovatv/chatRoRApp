@@ -1,14 +1,40 @@
-import React, { useState, useRef } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
 import { ActionCableConsumer } from '@thrash-industries/react-actioncable-provider';
-import { GiftedChat, Bubble } from 'react-native-gifted-chat';
-import { useSelector } from 'react-redux';
-import { selectConversationById } from 'state/chat';
+import { useDispatch } from 'react-redux';
+import { loadConversationById, addMessage } from 'state/messages';
+import ChatScreenView from './ChatScreenView';
+import Spinner from 'components/Spinner';
+import LoadingError from 'components/LoadingError';
+import { GiftedChat, Bubble, MessageImage } from 'react-native-gifted-chat';
+
+const LOAD_STATES = {
+  LOADING: 'LOADING',
+  FAILED: 'FAILED',
+  LOADED: 'LOADED',
+};
 
 const ChatScreen = ({ route }) => {
+  const [loadingState, changeLoadingStatus] = useState(LOAD_STATES.LOADING);
+
+  const setLoading = () => changeLoadingStatus(LOAD_STATES.LOADING);
+  const setLoaded = () => changeLoadingStatus(LOAD_STATES.LOADED);
+  const setFailed = () => changeLoadingStatus(LOAD_STATES.FAILED);
+
+  const isLoading = loadingState === LOAD_STATES.LOADING;
+
   const { id } = route.params;
   const cable = useRef({});
-  const conversation = useSelector(state => selectConversationById(state, id));
+  const dispatch = useDispatch();
+
+  const fetchConversation = () => {
+    dispatch(loadConversationById(id))
+      .then(setLoaded)
+      .catch(setFailed);
+  };
+
+  useEffect(() => {
+    fetchConversation();
+  }, [id]);
 
   const createUserAvatarUrl = () => {
     const rand1 = Math.round(Math.random() * 200 + 100);
@@ -16,34 +42,23 @@ const ChatScreen = ({ route }) => {
     return `https://placeimg.com/${rand1}/${rand2}/any`;
   };
 
-  const [messages, setMessages] = useState(
-    conversation.messages.map(({ id, created_at, ...x }) => ({
-      _id: id,
-      createdAt: new Date(Date.parse(created_at)),
-      user: {
-        _id: 0,
-        name: 'user',
-        avatar: createUserAvatarUrl(),
-      },
-      ...x,
-    })),
-  );
-
   const handleReceivedMessage = data => {
     console.log('received: ', data);
-    setMessages(prevState => GiftedChat.append(prevState, data.message));
+    dispatch(addMessage(data.message));
   };
 
   const sendHandler = message => {
-    console.log('SEND', cable.current);
-    // cable.current.send(({text: message.text, conversation_id: id}));
-    cable.current.perform(
-      'new_message',
-      { channel: 'MessagesChannel', conversation: id },
-      { text: message.text, conversation_id: id },
-    );
-    setMessages(prevState => GiftedChat.append(prevState, message));
+    cable.current.perform('new_message', {
+      channel: 'MessagesChannel',
+      conversation_id: id,
+      text: message.text,
+    });
   };
+
+  if ([LOAD_STATES.FAILED].includes(loadingState))
+    return <LoadingError onRefresh={fetchConversation} />;
+
+  if (isLoading) return <Spinner />;
 
   return (
     <ActionCableConsumer
@@ -51,36 +66,12 @@ const ChatScreen = ({ route }) => {
       onReceived={handleReceivedMessage}
       ref={cable}
     >
-      <View style={styles.container}>
-        <GiftedChat
-          renderUsernameOnMessage
-          messages={messages}
-          onSend={message => sendHandler(message[0])}
-          user={{ _id: 1, name: 'user', avatar: createUserAvatarUrl() }}
-          showUserAvatar
-          renderBubble={props => {
-            return (
-              <Bubble
-                {...props}
-                wrapperStyle={{
-                  right: {
-                    backgroundColor: 'hotpink',
-                  },
-                }}
-              />
-            );
-          }}
-        />
-      </View>
+      <ChatScreenView
+        sendHandler={sendHandler}
+        createUserAvatarUrl={createUserAvatarUrl}
+      />
     </ActionCableConsumer>
   );
 };
 
 export default React.memo(ChatScreen);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});

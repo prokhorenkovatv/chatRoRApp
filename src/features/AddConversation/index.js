@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { createConversation } from 'state/chat';
+import { createConversation } from 'state/conversations';
 
 const AddConversation = () => {
   const dispatch = useDispatch();

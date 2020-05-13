@@ -19,12 +19,6 @@ const createMiddlewares = thunk => {
   }
   // eslint-disable-next-line no-undef
   if (__DEV__) {
-    // eslint-disable-line
-    // eslint-disable-next-line global-require
-    // const createFlipperMiddleware = require('rn-redux-middleware-flipper')
-    //   .default;
-    // middlewares.push(createFlipperMiddleware());
-    // eslint-disable-next-line global-require
     const createDebugger = require('redux-flipper').default;
     middlewares.push(createDebugger());
   }

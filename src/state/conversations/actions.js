@@ -1,8 +1,8 @@
 import { createAction } from 'redux-act';
 import * as api from 'api';
-import { compose } from 'utils';
+import { compose, log } from 'utils';
 
-export const saveConversations = createAction('Conversations has been saved');
+export const saveConversations = createAction('Conversations have been saved');
 
 export const loadConversations = () => dispatch =>
   api.getConversations().then(
