@@ -1,17 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ActionCableConsumer } from '@thrash-industries/react-actioncable-provider';
 import { useDispatch } from 'react-redux';
-import { loadConversationById, addMessage } from 'state/messages';
+import {
+  loadMessagesByConversationId,
+  receiveMessage,
+  sendMessage,
+} from 'state/messages';
 import ChatScreenView from './ChatScreenView';
 import Spinner from 'components/Spinner';
 import LoadingError from 'components/LoadingError';
 import { GiftedChat, Bubble, MessageImage } from 'react-native-gifted-chat';
-
-const LOAD_STATES = {
-  LOADING: 'LOADING',
-  FAILED: 'FAILED',
-  LOADED: 'LOADED',
-};
+import { LOAD_STATES } from 'constants';
+import PropTypes from 'prop-types';
 
 const ChatScreen = ({ route }) => {
   const [loadingState, changeLoadingStatus] = useState(LOAD_STATES.LOADING);
@@ -26,14 +26,14 @@ const ChatScreen = ({ route }) => {
   const cable = useRef({});
   const dispatch = useDispatch();
 
-  const fetchConversation = () => {
-    dispatch(loadConversationById(id))
+  const fetchMessages = () => {
+    dispatch(loadMessagesByConversationId(id))
       .then(setLoaded)
       .catch(setFailed);
   };
 
   useEffect(() => {
-    fetchConversation();
+    fetchMessages();
   }, [id]);
 
   const createUserAvatarUrl = () => {
@@ -44,15 +44,17 @@ const ChatScreen = ({ route }) => {
 
   const handleReceivedMessage = data => {
     console.log('received: ', data);
-    dispatch(addMessage(data.message));
+    dispatch(receiveMessage(data.message));
   };
 
   const sendHandler = message => {
-    cable.current.perform('new_message', {
-      channel: 'MessagesChannel',
-      conversation_id: id,
-      text: message.text,
-    });
+    // cable.current.perform('new_message', {
+    //   channel: 'MessagesChannel',
+    //   conversation_id: id,
+    //   text: message.text,
+    // });
+    message.conversation_id = id;
+    dispatch(sendMessage(message));
   };
 
   if ([LOAD_STATES.FAILED].includes(loadingState))
@@ -69,9 +71,15 @@ const ChatScreen = ({ route }) => {
       <ChatScreenView
         sendHandler={sendHandler}
         createUserAvatarUrl={createUserAvatarUrl}
+        id={id}
       />
     </ActionCableConsumer>
   );
 };
 
 export default React.memo(ChatScreen);
+
+ChatScreen.propTypes = {
+  route: PropTypes.object,
+  id: PropTypes.number,
+};

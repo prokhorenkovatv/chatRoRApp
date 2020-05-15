@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { createConversation } from 'state/conversations';
+import { hp, wp } from 'utils/ui';
 
 const AddConversation = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const AddConversation = () => {
       />
       <Button
         title="Add"
-        style={{ width: '20%' }}
+        style={styles.addButton}
         color="grey"
         onPress={() => dispatch(createConversation(value))}
       />
@@ -28,13 +29,14 @@ const styles = StyleSheet.create({
   inputWrapper: {
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingTop: 15,
+    paddingTop: hp(2),
   },
   textInput: {
-    height: 40,
-    width: '80%',
+    height: hp(5),
+    width: wp('80%'),
     borderColor: 'grey',
-    borderWidth: 1,
-    marginRight: 10,
+    borderWidth: wp(0.3),
+    marginRight: wp(2),
   },
+  addButton: { width: wp('20%') },
 });

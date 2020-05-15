@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import ConversationsListView from 'features/ConversationsList/ConversationsListView';
 import { ActionCableConsumer } from '@thrash-industries/react-actioncable-provider';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { isEmpty } from 'utils';
 import AddConversation from 'features/AddConversation';
 import { useSelector, shallowEqual } from 'react-redux';
 import { selectConversations } from 'state/conversations';
+import { hp, wp } from 'utils/ui';
 
 const ConversationsList = () => {
   const cable = useRef({});
@@ -17,13 +18,13 @@ const ConversationsList = () => {
 
   if (isEmpty(conversations))
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.wrapper}>
         <Text>No conversations yet</Text>
       </View>
     );
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.wrapper}>
       <AddConversation />
       <ActionCableConsumer
         ref={cable}
@@ -37,3 +38,7 @@ const ConversationsList = () => {
 };
 
 export default React.memo(ConversationsList);
+
+const styles = StyleSheet.create({
+  wrapper: { flex: 1 },
+});

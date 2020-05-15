@@ -2,6 +2,7 @@ import React from 'react';
 import { SafeAreaView, FlatList, StyleSheet } from 'react-native';
 import ConversationItem from 'components/ConversationItem';
 import { hp } from 'utils/ui';
+import PropTypes from 'prop-types';
 
 const ConversationsListView = ({ conversations }) => (
   <SafeAreaView style={styles.container}>
@@ -24,3 +25,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+ConversationsListView.propTypes = {
+  conversations: PropTypes.array,
+};

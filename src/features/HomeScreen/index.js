@@ -8,12 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { SCREENS } from 'navigation/constants';
 import DeepLinking from 'react-native-deep-linking';
 import { Linking } from 'react-native';
-
-const LOAD_STATES = {
-  LOADING: 'LOADING',
-  FAILED: 'FAILED',
-  LOADED: 'LOADED',
-};
+import { LOAD_STATES } from 'constants';
 
 const HomeScreen = () => {
   const navigation = useNavigation();

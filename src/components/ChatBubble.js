@@ -1,14 +1,21 @@
 import React from 'react';
-import { Bubble } from 'react-native-gifted-chat';
+import { Bubble, StyleSheet } from 'react-native-gifted-chat';
 
-const ChatBubble = props => (
-  <Bubble
-    {...props}
-    wrapperStyle={{
-      right: {
-        backgroundColor: props.currentMessage.image ? 'transparent' : 'hotpink',
-      },
-    }}
-  />
-);
+const ChatBubble = props => {
+  return (
+    <Bubble
+      {...props}
+      wrapperStyle={{
+        right: {
+          backgroundColor: props.currentMessage.image
+            ? 'transparent'
+            : 'hotpink',
+        },
+      }}
+      usernameStyle={{
+        fontWeight: 'bold',
+      }}
+    />
+  );
+};
 export default ChatBubble;

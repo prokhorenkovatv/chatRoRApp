@@ -6,11 +6,12 @@ import ImageModal from 'components/ImageModal';
 import ChatBubble from 'components/ChatBubble';
 import ImagePicker from 'react-native-image-picker';
 import { useSelector } from 'react-redux';
-import { selectMessages } from 'state/messages';
+import { selectCurrentMessages } from 'state/messages';
+import { hp, wp } from 'utils/ui';
+import PropTypes from 'prop-types';
 
-const ChatScreenView = ({ sendHandler, createUserAvatarUrl }) => {
-  const messages = useSelector(selectMessages);
-
+const ChatScreenView = ({ sendHandler, createUserAvatarUrl, id }) => {
+  const messages = useSelector(state => selectCurrentMessages(state, id));
   const allMessages = messages.map(node => {
     const message = {
       _id: node.id,
@@ -103,6 +104,7 @@ const ChatScreenView = ({ sendHandler, createUserAvatarUrl }) => {
           setUserAvatar
           renderActions={actionsHandler}
           renderBubble={props => <ChatBubble {...props} />}
+          inverted={false}
         />
       </View>
       <ImageModal
@@ -122,9 +124,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   image: {
-    width: 250,
-    height: 200,
-    margin: 3,
+    width: wp(25),
+    height: hp(20),
+    margin: wp(1),
     resizeMode: 'cover',
   },
 });
+
+ChatScreenView.propTypes = {
+  sendHandler: PropTypes.func.isRequired,
+  createUserAvatarUrl: PropTypes.func.isRequired,
+};

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { hp, wp } from 'utils/ui';
+import PropTypes from 'prop-types';
 
 const resolveIcon = name =>
   ({
@@ -24,3 +25,8 @@ const styles = StyleSheet.create({
     fontSize: hp(3.2),
   },
 });
+
+Icon.propTypes = {
+  name: PropTypes.string,
+  style: PropTypes.object,
+};

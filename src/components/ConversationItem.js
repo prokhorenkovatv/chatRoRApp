@@ -2,6 +2,8 @@ import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { SCREENS } from 'navigation/constants';
 import { useNavigation } from '@react-navigation/native';
+import { wp, hp } from 'utils/ui';
+import PropTypes from 'prop-types';
 
 const ConversationItem = ({ title, id }) => {
   const navigation = useNavigation();
@@ -24,13 +26,18 @@ const styles = StyleSheet.create({
   text: {
     color: 'black',
     backgroundColor: 'lightgrey',
-    fontSize: 20,
+    fontSize: hp(2.5),
     borderStyle: 'solid',
-    borderWidth: 1,
+    borderWidth: wp(0.3),
     borderColor: 'grey',
-    padding: 10,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    padding: wp(2.6),
+    marginVertical: hp(1),
+    marginHorizontal: wp(4),
     borderRadius: 5,
   },
 });
+
+ConversationItem.propTypes = {
+  title: PropTypes.string,
+  id: PropTypes.number,
+};

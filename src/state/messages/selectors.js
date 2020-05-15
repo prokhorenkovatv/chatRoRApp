@@ -1,4 +1,4 @@
-export const selectCurrentConversation = state =>
-  state.messages.currentConversation;
-export const selectMessages = state =>
-  state.messages.currentConversation.messages;
+import { hashToArr } from 'utils';
+
+export const selectCurrentMessages = (state, id) =>
+  hashToArr(state.messages.byRoom[id]);

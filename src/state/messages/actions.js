@@ -2,16 +2,18 @@ import { createAction } from 'redux-act';
 import * as api from 'api';
 import { compose } from 'utils';
 
-export const saveCurrentConversation = createAction(
+export const saveCurrentMessages = createAction(
   'Current conversation was saved',
 );
 
-export const addMessage = createAction('Message was added');
+export const receiveMessage = createAction('Message was received');
 
-export const loadConversationById = id => dispatch =>
+export const sendMessage = createAction('Message was send');
+
+export const loadMessagesByConversationId = id => dispatch =>
   api.getConversationById(id).then(
     compose(
       dispatch,
-      saveCurrentConversation,
+      saveCurrentMessages,
     ),
   );
