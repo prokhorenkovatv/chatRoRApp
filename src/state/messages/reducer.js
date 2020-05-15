@@ -20,7 +20,8 @@ export default createReducer(
       byRoom: {
         ...state.byRoom,
         [message.conversation_id]: {
-          ...hashToArr(state.byRoom[message.conversation_id]).concat(message),
+          ...state.byRoom[message.conversation_id],
+          [message.id]: message,
         },
       },
     }),

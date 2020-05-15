@@ -15,3 +15,10 @@ export const loadMessagesByConversationId = id => dispatch =>
       saveCurrentMessages,
     ),
   );
+
+export const sendMessage = (message, conversationId, cable) =>
+  cable.perform('new_message', {
+    channel: 'MessagesChannel',
+    conversation_id: conversationId,
+    text: message.text,
+  })

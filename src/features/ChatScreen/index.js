@@ -1,11 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ActionCableConsumer } from '@thrash-industries/react-actioncable-provider';
 import { useDispatch } from 'react-redux';
-import { loadMessagesByConversationId, receiveMessage } from 'state/messages';
+import {
+  loadMessagesByConversationId,
+  receiveMessage,
+  sendMessage,
+} from 'state/messages';
 import ChatScreenView from './ChatScreenView';
 import Spinner from 'components/Spinner';
 import LoadingError from 'components/LoadingError';
 import { LOAD_STATES } from 'constants';
+import { compose, get } from 'utils'
 import PropTypes from 'prop-types';
 
 const ChatScreen = ({ route }) => {
@@ -17,7 +22,8 @@ const ChatScreen = ({ route }) => {
   const isLoading = loadingState === LOAD_STATES.LOADING;
 
   const { id } = route.params;
-  const cable = useRef({});
+  const cableRef = useRef(null);
+  const cable = cableRef.current
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,20 +38,10 @@ const ChatScreen = ({ route }) => {
     return `https://placeimg.com/${rand1}/${rand2}/any`;
   };
 
-  const handleReceivedMessage = data => {
-    console.log('received: ', data);
-    dispatch(receiveMessage(data.message));
-  };
+  const handleReceivedMessage = compose(dispatch, receiveMessage, get('message'))
+  const handleSendMessage = m => sendMessage(m, id, cable)
 
-  const sendHandler = message => {
-    cable.current.perform('new_message', {
-      channel: 'MessagesChannel',
-      conversation_id: id,
-      text: message.text,
-    });
-  };
-
-  if ([LOAD_STATES.FAILED].includes(loadingState))
+  if (loadingState === LOAD_STATES.FAILED)
     return <LoadingError onRefresh={fetchConversation} />;
 
   if (isLoading) return <Spinner />;
@@ -54,10 +50,10 @@ const ChatScreen = ({ route }) => {
     <ActionCableConsumer
       channel={{ channel: 'MessagesChannel', conversation: id }}
       onReceived={handleReceivedMessage}
-      ref={cable}
+      ref={cableRef}
     >
       <ChatScreenView
-        sendHandler={sendHandler}
+        sendHandler={handleSendMessage}
         createUserAvatarUrl={createUserAvatarUrl}
         id={id}
       />
