@@ -1,4 +1,14 @@
-import { hashToArr } from 'utils';
+import { createSelector } from 'reselect'
+import { compose, hashToArr, sort } from 'utils';
 
-export const selectCurrentMessages = (state, id) =>
-  hashToArr(state.messages.byRoom[id]);
+
+export const selectCurrentMessages = id => createSelector(
+  state => state.messages.byRoom[id],
+  compose(
+    sort((a, b) =>
+      new Date(b.created_at) - new Date(a.created_at)
+    ),
+    hashToArr,
+  )
+)
+

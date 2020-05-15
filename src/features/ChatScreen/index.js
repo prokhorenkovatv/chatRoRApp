@@ -5,14 +5,12 @@ import { loadMessagesByConversationId, receiveMessage } from 'state/messages';
 import ChatScreenView from './ChatScreenView';
 import Spinner from 'components/Spinner';
 import LoadingError from 'components/LoadingError';
-import { GiftedChat, Bubble, MessageImage } from 'react-native-gifted-chat';
 import { LOAD_STATES } from 'constants';
 import PropTypes from 'prop-types';
 
 const ChatScreen = ({ route }) => {
   const [loadingState, changeLoadingStatus] = useState(LOAD_STATES.LOADING);
 
-  const setLoading = () => changeLoadingStatus(LOAD_STATES.LOADING);
   const setLoaded = () => changeLoadingStatus(LOAD_STATES.LOADED);
   const setFailed = () => changeLoadingStatus(LOAD_STATES.FAILED);
 
@@ -22,14 +20,10 @@ const ChatScreen = ({ route }) => {
   const cable = useRef({});
   const dispatch = useDispatch();
 
-  const fetchMessages = () => {
+  useEffect(() => {
     dispatch(loadMessagesByConversationId(id))
       .then(setLoaded)
       .catch(setFailed);
-  };
-
-  useEffect(() => {
-    fetchMessages();
   }, [id]);
 
   const createUserAvatarUrl = () => {

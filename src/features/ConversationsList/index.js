@@ -6,7 +6,6 @@ import { isEmpty } from 'utils';
 import AddConversation from 'features/AddConversation';
 import { useSelector, shallowEqual } from 'react-redux';
 import { selectConversations } from 'state/conversations';
-import { hp, wp } from 'utils/ui';
 
 const ConversationsList = () => {
   const cable = useRef({});
