@@ -104,7 +104,6 @@ const ChatScreenView = ({ sendHandler, createUserAvatarUrl, id }) => {
           setUserAvatar
           renderActions={actionsHandler}
           renderBubble={props => <ChatBubble {...props} />}
-          inverted={false}
         />
       </View>
       <ImageModal

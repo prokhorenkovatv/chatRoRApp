@@ -8,8 +8,6 @@ export const saveCurrentMessages = createAction(
 
 export const receiveMessage = createAction('Message was received');
 
-export const sendMessage = createAction('Message was send');
-
 export const loadMessagesByConversationId = id => dispatch =>
   api.getConversationById(id).then(
     compose(

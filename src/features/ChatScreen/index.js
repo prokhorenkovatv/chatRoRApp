@@ -1,11 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ActionCableConsumer } from '@thrash-industries/react-actioncable-provider';
 import { useDispatch } from 'react-redux';
-import {
-  loadMessagesByConversationId,
-  receiveMessage,
-  sendMessage,
-} from 'state/messages';
+import { loadMessagesByConversationId, receiveMessage } from 'state/messages';
 import ChatScreenView from './ChatScreenView';
 import Spinner from 'components/Spinner';
 import LoadingError from 'components/LoadingError';
@@ -48,13 +44,11 @@ const ChatScreen = ({ route }) => {
   };
 
   const sendHandler = message => {
-    // cable.current.perform('new_message', {
-    //   channel: 'MessagesChannel',
-    //   conversation_id: id,
-    //   text: message.text,
-    // });
-    message.conversation_id = id;
-    dispatch(sendMessage(message));
+    cable.current.perform('new_message', {
+      channel: 'MessagesChannel',
+      conversation_id: id,
+      text: message.text,
+    });
   };
 
   if ([LOAD_STATES.FAILED].includes(loadingState))
