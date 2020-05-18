@@ -11,7 +11,7 @@ import { hp, wp } from 'utils/ui';
 import PropTypes from 'prop-types';
 
 const ChatScreenView = ({ sendHandler, createUserAvatarUrl, id }) => {
-  const messages = useSelector(state => selectCurrentMessages(state, id));
+  const messages = useSelector(selectCurrentMessages(id));
   const allMessages = messages.map(node => {
     const message = {
       _id: node.id,
