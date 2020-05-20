@@ -10,7 +10,7 @@ import ChatScreenView from './ChatScreenView';
 import Spinner from 'components/Spinner';
 import LoadingError from 'components/LoadingError';
 import { LOAD_STATES } from 'constants';
-import { compose, get } from 'utils'
+import { compose, get } from 'utils';
 import PropTypes from 'prop-types';
 
 const ChatScreen = ({ route }) => {
@@ -23,7 +23,7 @@ const ChatScreen = ({ route }) => {
 
   const { id } = route.params;
   const cableRef = useRef(null);
-  const cable = cableRef.current
+  // const cable = cableRef.current;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -38,8 +38,13 @@ const ChatScreen = ({ route }) => {
     return `https://placeimg.com/${rand1}/${rand2}/any`;
   };
 
-  const handleReceivedMessage = compose(dispatch, receiveMessage, get('message'))
-  const handleSendMessage = m => sendMessage(m, id, cable)
+  const handleReceivedMessage = compose(
+    dispatch,
+    receiveMessage,
+    get('message'),
+  );
+
+  const handleSendMessage = m => sendMessage(m, id, cableRef);
 
   if (loadingState === LOAD_STATES.FAILED)
     return <LoadingError onRefresh={fetchConversation} />;

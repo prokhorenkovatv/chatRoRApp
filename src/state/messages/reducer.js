@@ -1,26 +1,26 @@
 import { createReducer } from 'redux-act';
-import { saveCurrentMessages, sendMessage, receiveMessage } from './actions';
+import { saveCurrentMessages, receiveMessage } from './actions';
 import { arrToHash, hashToArr } from 'utils';
 
 const INITIAL_STATE = {
-  byRoom: {},
+  byConversation: {},
 };
 
 export default createReducer(
   {
     [saveCurrentMessages]: (state, conversation) => ({
       ...state,
-      byRoom: {
-        ...state.byRoom,
-        [conversation.id]: { ...conversation.messages },
+      byConversation: {
+        ...state.byConversation,
+        [conversation.id]: { ...arrToHash(conversation.messages) },
       },
     }),
     [receiveMessage]: (state, message) => ({
       ...state,
-      byRoom: {
-        ...state.byRoom,
+      byConversation: {
+        ...state.byConversation,
         [message.conversation_id]: {
-          ...state.byRoom[message.conversation_id],
+          ...state.byConversation[message.conversation_id],
           [message.id]: message,
         },
       },

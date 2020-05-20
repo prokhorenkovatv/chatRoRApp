@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { GiftedChat, Bubble, MessageImage } from 'react-native-gifted-chat';
-import { View, StyleSheet, TouchableOpacity, Image, Modal } from 'react-native';
+import { GiftedChat } from 'react-native-gifted-chat';
+import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import ChatActions from 'components/ChatActions';
 import ImageModal from 'components/ImageModal';
 import ChatBubble from 'components/ChatBubble';

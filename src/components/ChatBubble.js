@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bubble, StyleSheet } from 'react-native-gifted-chat';
+import { Bubble } from 'react-native-gifted-chat';
 
 const ChatBubble = props => {
   return (

@@ -16,9 +16,10 @@ export const loadMessagesByConversationId = id => dispatch =>
     ),
   );
 
-export const sendMessage = (message, conversationId, cable) =>
-  cable.perform('new_message', {
+export const sendMessage = (message, conversationId, cable) => {
+  cable.current.perform('new_message', {
     channel: 'MessagesChannel',
     conversation_id: conversationId,
     text: message.text,
-  })
+  });
+};

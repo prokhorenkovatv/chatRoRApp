@@ -1,10 +1,3 @@
-/**
- * @format
- */
-/**
- * @format
- */
-
 import { AppRegistry } from 'react-native';
 import React from 'react';
 import ActionCableProvider from '@thrash-industries/react-actioncable-provider';
