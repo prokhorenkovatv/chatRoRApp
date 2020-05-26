@@ -9,6 +9,8 @@ import { useSelector } from 'react-redux';
 import { selectCurrentMessages } from 'state/messages';
 import { hp, wp } from 'utils/ui';
 import PropTypes from 'prop-types';
+import RNFetchBlob from 'rn-fetch-blob';
+import { dropboxToken } from 'constants';
 
 const ChatScreenView = ({ sendHandler, createUserAvatarUrl, id }) => {
   const messages = useSelector(selectCurrentMessages(id));
@@ -71,21 +73,51 @@ const ChatScreenView = ({ sendHandler, createUserAvatarUrl, id }) => {
         console.log('User tapped custom button: ', response.customButton);
         alert(response.customButton);
       } else {
-        const source = { uri: response.data };
-        //temporary local
-        setMessages(prevState =>
-          GiftedChat.append(prevState, {
-            _id: Math.round(Math.random() * 1000000),
-            createdAt: Date.now(),
-            user: {
-              _id: 1,
-              name: 'user',
-              avatar: createUserAvatarUrl(),
-            },
-            image: 'data:image/jpeg;base64,' + response.data,
-          }),
-        );
+        console.log(response);
+        RNFetchBlob.fetch(
+          'POST',
+          'https://content.dropboxapi.com/2/files/upload',
+          {
+            Authorization: `Bearer ${dropboxToken}`,
+            'Dropbox-API-Arg': JSON.stringify({
+              path: `/${response.fileName}`,
+              mode: 'add',
+              autorename: true,
+              mute: false,
+            }),
+            'Content-Type': 'application/octet-stream',
+          },
+          RNFetchBlob.wrap(response.uri),
+        )
+          .uploadProgress((written, total) => {
+            //for further showing progress
+            console.log('uploaded', written / total);
+          })
+          .progress((received, total) => {
+            let parent = received / total;
+            console.log(parent);
+          })
+          .then(res => {
+            console.log(res.text());
+          })
+          .catch(err => {
+            console.log('error', err);
+          });
       }
+      // //temporary local
+      // setMessages(prevState =>
+      //   GiftedChat.append(prevState, {
+      //     _id: Math.round(Math.random() * 1000000),
+      //     createdAt: Date.now(),
+      //     user: {
+      //       _id: 1,
+      //       name: 'user',
+      //       avatar: createUserAvatarUrl(),
+      //     },
+      //     image: 'data:image/jpeg;base64,' + response.data,
+      //   }),
+      // );
+      // }
     });
   };
 

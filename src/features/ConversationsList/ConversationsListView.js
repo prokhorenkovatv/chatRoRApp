@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 
 const renderItem = ({ item }) => (
   <ConversationItem title={item.title} id={item.id} />
-)
+);
 
-const keyExtractor = item => item.id.toString()
+const keyExtractor = item => item.id.toString();
 
 const ConversationsListView = ({ conversations }) => (
   <SafeAreaView style={styles.container}>

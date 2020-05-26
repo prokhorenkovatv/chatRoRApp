@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "368527334956",
+    "firebase_url": "https://chatrorapp-1590398438978.firebaseio.com",
+    "project_id": "chatrorapp-1590398438978",
+    "storage_bucket": "chatrorapp-1590398438978.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368527334956:android:753652c556f1df88497b89",
+        "android_client_info": {
+          "package_name": "com.chatrorapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "368527334956-midfi8b2gbb81m8j7eil19c5fdtvrat8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chatrorapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "368527334956-d1mvj6h15ecaokm2u6nlcajvb1apdm83.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDS5KNlt-3yRYj9FEruQm6MygtvPG2xwTA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "368527334956-d1mvj6h15ecaokm2u6nlcajvb1apdm83.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

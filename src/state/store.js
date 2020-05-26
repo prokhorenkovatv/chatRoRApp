@@ -31,9 +31,10 @@ const middlewareComposer =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
   compose;
 
-export const store = createStore(
+const store = createStore(
   persistedReducer,
   middlewareComposer(createMiddlewares(thunk)),
 );
+const persistor = persistStore(store);
 
-export const persistor = persistStore(store);
+export { store, persistor };

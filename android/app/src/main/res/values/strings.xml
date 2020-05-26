@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">chatRoRApp</string>
+    <string name="facebook_app_id">285527959142970</string>
+    <string name="fb_login_protocol_scheme">fb285527959142970</string>
+    <string name="server_client_id">368527334956-ce9e284f50i9a8mblmidiuh19vt67nhr.apps.googleusercontent.com</string>
 </resources>

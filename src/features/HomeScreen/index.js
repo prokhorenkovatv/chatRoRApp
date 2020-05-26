@@ -16,7 +16,6 @@ const HomeScreen = () => {
 
   const [loadingState, changeLoadingStatus] = useState(LOAD_STATES.LOADING);
 
-  const setLoading = () => changeLoadingStatus(LOAD_STATES.LOADING);
   const setLoaded = () => changeLoadingStatus(LOAD_STATES.LOADED);
   const setFailed = () => changeLoadingStatus(LOAD_STATES.FAILED);
 
@@ -60,7 +59,7 @@ const HomeScreen = () => {
     DeepLinking.evaluateUrl(event.url);
   };
 
-  if ([LOAD_STATES.FAILED].includes(loadingState))
+  if (loadingState === LOAD_STATES.FAILED)
     return <LoadingError onRefresh={fetchConversations} />;
 
   if (isLoading) return <Spinner />;

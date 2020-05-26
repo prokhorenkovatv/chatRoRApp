@@ -11,29 +11,25 @@ const ActionCableJwt = {
         ActionCable.log(
           `Attempted to open WebSocket, but existing socket is ${this.getState()}`,
         );
-        return false;
+        throw new Error('Existing connection must be closed before opening');
       }
 
       tokenCallback().then(token => {
         if (token) {
-          console.log('ac: ', token);
           ActionCable.log(
-            `Opening WebSocket, current state is + ${this.getState()}, subprotocols: ${ActionCable.INTERNAL.protocols.concat(
-              token,
-            )}`,
+            `Opening WebSocket, current state is + ${this.getState()}, subprotocols: 
+             ${ActionCable.INTERNAL.protocols.concat(token)}`,
           );
           if (this.webSocket != null) this.uninstallEventHandlers();
           this.webSocket = new ActionCable.WebSocket(
             this.consumer.url,
             ActionCable.INTERNAL.protocols.concat(token),
           );
-          console.log(this.webSocket);
           this.webSocket.protocol = 'actioncable-v1-json';
           this.installEventHandlers();
           this.monitor.start();
         }
       });
-
       return true;
     };
 

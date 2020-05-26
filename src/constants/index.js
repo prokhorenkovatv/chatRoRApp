@@ -6,3 +6,8 @@ export const LOAD_STATES = {
   FAILED: 'FAILED',
   LOADED: 'LOADED',
 };
+export const dropboxToken =
+  'rMFPgYOLbhAAAAAAAAAARNEQgxK2v1ZWq5V5EMuo5k88X_3DTOFQ2l1eEMT0XEhv';
+
+export const WebClientID =
+  '368527334956-ce9e284f50i9a8mblmidiuh19vt67nhr.apps.googleusercontent.com';
