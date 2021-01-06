@@ -24,7 +24,7 @@
     "@thrash-industries/react-actioncable-provider": "^2.0.5",
     "@welldone-software/why-did-you-render": "^4.2.1",
     "actioncable": "^5.2.4-2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "prop-types": "^15.7.2",
     "react": "16.11.0",
     "react-native": "0.62.2",
